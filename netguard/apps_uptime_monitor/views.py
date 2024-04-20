@@ -76,28 +76,29 @@ def login(request):
                 request.session['context'] = context
 
                 if usertype == "superuser":
-                    return redirect('ip_tools')
+                    return redirect('landing')
                 else:
-                    return redirect('ip_tools')
+                    return redirect('landing')
     else:
         return render(request, "login.html", {'error_message': error_message})
     
 @csrf_exempt
 def ip_tools(request):
     error_message = None 
-    ip_info = None  # Initialize ip_info to None
+    ip_info = None
     if request.method == 'POST':
         ip = request.POST.get('ipaddress')
         url = f"http://ip-api.com/json/{ip}"
         response = requests.get(url)
         if response.status_code == 200:
-            ip_info = response.json()  # Store IP information in ip_info
+            ip_info = response.json()
         else:
             error_message = "IP address lookup failed"
-    # If the request method is GET or if the IP address lookup fails, display the superuser-landing.html template
-    return render(request, "superuser-landing.html", {'error_message': error_message, 'ip_info': ip_info})
+    return render(request, "ipinfo.html", {'error_message': error_message, 'ip_info': ip_info})
 
-
+@csrf_exempt
+def landing(request):
+    return render(request, 'superuser-landing.html')
 
 @csrf_exempt
 def signup(request):

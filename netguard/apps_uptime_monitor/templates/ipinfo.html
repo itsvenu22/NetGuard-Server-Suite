@@ -20,8 +20,7 @@
             justify-content: space-around;
             align-items: center;
             min-height: 100vh;
-            height: 100%;
-            overflow-y: hidden;
+
         }
 
         .left-container {
@@ -131,27 +130,43 @@
     </style>
     <div class="login-container">
         <div class="login-box">
-            <h2>NetGuard Login</h2>
-            <form action="" method="POST">
-
-                {% for msg in messages %}
-                <p>{{ error_message1 }}</p>
-                {% endfor %}
+            <h2>NetGuard Sub-Scanner</h2>
+            <h3>IP Information</h3>
+            <form action="{% url 'ip_tools' %}" method="POST">
 
                 <div class="input-container">
                     {% csrf_token %}
-                    <input type="text" id="id" name="email" required>
-                    <label for="id">Email</label>
+                    <input type="text" id="id" name="ipaddress" required>
+                    <label for="id">IP Address or Website</label>
                 </div>
-                <div class="input-container">
-                    <input type="password" id="password" name="password" required>
-                    <label for="password">Password</label>
+                <table>
+                    <td>
+                        <button type="submit" style=" margin-bottom: 20px">Search</button>
+                    </td>
+                </table>
+                {% for msg in messages %}
+                <p>{{ error_message }}</p>
+                {% endfor %}
+                {% if ip_info %}
+                <div>
+                    <p><strong>Query:</strong> {{ ip_info.query }}</p>
+                    <p><strong>Country:</strong> {{ ip_info.country }}</p>
+                    <p><strong>Country Code:</strong> {{ ip_info.countryCode }}</p>
+                    <p><strong>Region:</strong> {{ ip_info.region }}</p>
+                    <p><strong>Region Name:</strong> {{ ip_info.regionName }}</p>
+                    <p><strong>City:</strong> {{ ip_info.city }}</p>
+                    <p><strong>ZIP:</strong> {{ ip_info.zip }}</p>
+                    <p><strong>Latitude:</strong> {{ ip_info.lat }}</p>
+                    <p><strong>Longitude:</strong> {{ ip_info.lon }}</p>
+                    <p><strong>Timezone:</strong> {{ ip_info.timezone }}</p>
+                    <p><strong>ISP:</strong> {{ ip_info.isp }}</p>
+                    <p><strong>Organization:</strong> {{ ip_info.org }}</p>
+                    <p><strong>AS:</strong> {{ ip_info.as }}</p>
                 </div>
-                <button type="submit">Login</button>
+                {% endif %}
             </form>
+            <a href="{% url 'landing' %}"><button style="margin-bottom: 20px">Back</button></a>
             <br>
-            <p>Don't have an account? <a href="signup">Sign up here</a></p>
-            <p>Forgot Password? <a href="forgot">Click here</a></p>
         </div>
     </div>
 </body>

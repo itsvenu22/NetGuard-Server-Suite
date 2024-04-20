@@ -20,6 +20,8 @@
             justify-content: space-around;
             align-items: center;
             min-height: 100vh;
+            height: 100%;
+            overflow-y: hidden;
         }
 
         .left-container {
@@ -42,7 +44,7 @@
             color: #333;
         }
 
-        form {
+        .form {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -129,42 +131,21 @@
     </style>
     <div class="login-container">
         <div class="login-box">
-            <h2>NetGuard Sub-Scanner</h2>
-            <h3>IP Information</h3>
-            <form action="{% url 'ip_tools' %}" method="POST">
-
-                <div class="input-container">
-                    {% csrf_token %}
-                    <input type="text" id="id" name="ipaddress" required>
-                    <label for="id">IP Address or Website</label>
-                </div>
+            <h2>NetGuard Server Suite</h2>
+            <div class="form">
                 <table>
                     <td>
-                        <button type="submit" style=" margin-bottom: 20px">Search</button>
-                        <button style="margin-bottom: 20px;">Back</button>
+                        <a href="http://127.0.0.1:8000/ip_tools"><button type="submit" style=" margin-bottom: 20px">IP
+                                Tool</button></a>
+                        <a href="{% url 'ip_tools' %}"><button type="submit" style=" margin-bottom: 20px">DNS
+                                Tool </button></a>
+                        <a href="{% url 'ip_tools' %}"><button type="submit"
+                                style=" margin-bottom: 20px">Search</button></a>
+                        <a href="{% url 'ip_tools' %}"><button type="submit"
+                                style=" margin-bottom: 20px">Search</button></a>
                     </td>
                 </table>
-                {% for msg in messages %}
-                <p>{{ error_message }}</p>
-                {% endfor %}
-                {% if ip_info %}
-                <div>
-                    <p><strong>Query:</strong> {{ ip_info.query }}</p>
-                    <p><strong>Country:</strong> {{ ip_info.country }}</p>
-                    <p><strong>Country Code:</strong> {{ ip_info.countryCode }}</p>
-                    <p><strong>Region:</strong> {{ ip_info.region }}</p>
-                    <p><strong>Region Name:</strong> {{ ip_info.regionName }}</p>
-                    <p><strong>City:</strong> {{ ip_info.city }}</p>
-                    <p><strong>ZIP:</strong> {{ ip_info.zip }}</p>
-                    <p><strong>Latitude:</strong> {{ ip_info.lat }}</p>
-                    <p><strong>Longitude:</strong> {{ ip_info.lon }}</p>
-                    <p><strong>Timezone:</strong> {{ ip_info.timezone }}</p>
-                    <p><strong>ISP:</strong> {{ ip_info.isp }}</p>
-                    <p><strong>Organization:</strong> {{ ip_info.org }}</p>
-                    <p><strong>AS:</strong> {{ ip_info.as }}</p>
-                </div>
-                {% endif %}
-            </form>
+            </div>
             <br>
         </div>
     </div>
