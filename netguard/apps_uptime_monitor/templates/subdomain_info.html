@@ -1,0 +1,41 @@
+<!-- subdomain_info.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Head content -->
+</head>
+
+<body>
+    <!-- Body content -->
+    <div class="login-container">
+        <div class="login-box">
+            <!-- Form content -->
+            <form action="{% url 'subdomain_info' %}" method="POST">
+                <!-- Input field and CSRF token -->
+                <div class="input-container">
+                    {% csrf_token %}
+                    <input type="text" id="id" name="domain" required>
+                    <label for="id">Domain Name</label>
+                </div>
+                <!-- Submit button -->
+                <button type="submit">Search</button>
+                <!-- Error message -->
+                {% if error_message %}
+                <p>{{ error_message }}</p>
+                {% endif %}
+                <!-- Subdomains list -->
+                <ul>
+                    {% for subdomain in subdomains %}
+                    <li>{{ subdomain }}</li>
+                    {% endfor %}
+                </ul>
+            </form>
+            <!-- Back button -->
+            <a href="{% url 'landing' %}"><button>Back</button></a>
+        </div>
+    </div>
+</body>
+
+</html>

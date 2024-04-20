@@ -11,7 +11,7 @@ from django.contrib import messages
 from django.utils import timezone
 import uuid, time, pyotp
 import requests
-
+import logging
 
 @csrf_exempt
 def gen_uid(request):
@@ -95,6 +95,70 @@ def ip_tools(request):
         else:
             error_message = "IP address lookup failed"
     return render(request, "ipinfo.html", {'error_message': error_message, 'ip_info': ip_info})
+
+@csrf_exempt
+def dns_tools(request):
+    error_message = None 
+    ip_info = None
+    if request.method == 'POST':
+        domain = request.POST.get('domain')
+        url = f"https://networkcalc.com/api/dns/lookup/{domain}"
+        response = requests.get(url)
+        if response.status_code == 200:
+            ip_info = response.json()
+        else:
+            error_message = "DNS lookup failed"
+    return render(request, "dnsinfo.html", {'error_message': error_message, 'ip_info': ip_info})
+
+
+@csrf_exempt
+def certificate_info(request):
+    error_message = None 
+    certificate_info = None
+    if request.method == 'POST':
+        domain = request.POST.get('domain')
+        url = f"https://networkcalc.com/api/security/certificate/{domain}"
+        response = requests.get(url)
+        if response.status_code == 200:
+            data = response.json()
+            if data.get('status') == 'OK':
+                certificate_info = data.get('certificate')
+            else:
+                error_message = "Certificate information not found"
+        else:
+            error_message = "Failed to fetch certificate information"
+    return render(request, "certificate_info.html", {'error_message': error_message, 'certificate_info': certificate_info})
+
+
+@csrf_exempt
+def subdomain_info(request):
+    error_message = None 
+    subdomains = None
+    if request.method == 'POST':
+        domain = request.POST.get('domain')
+        url = "https://subdomain-scan1.p.rapidapi.com/"
+        querystring = {"domain": domain}
+        headers = {
+            "X-RapidAPI-Key": settings.API_KEY,
+            "X-RapidAPI-Host": "subdomain-scan1.p.rapidapi.com"
+        }
+        response = requests.get(url, headers=headers, params=querystring)
+        if response.status_code == 200:
+            data = response.json()
+            if isinstance(data, list):
+                subdomains = data  # Assuming the response is directly a list of subdomains
+            elif isinstance(data, dict) and data.get('status') == 'OK':
+                subdomains = data.get('subdomains')  # Access the subdomains from the dictionary
+            else:
+                error_message = "Subdomain information not found"
+        else:
+            error_message = "Failed to fetch subdomain information"
+    return render(request, "subdomain_info.html", {'error_message': error_message, 'subdomains': subdomains})
+
+@csrf_exempt
+def security_tools(request):
+    return render(request, 'security-tools.html')
+
 
 @csrf_exempt
 def landing(request):
