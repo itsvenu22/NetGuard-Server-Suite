@@ -1,0 +1,173 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NetGuard</title>
+    <link rel="stylesheet" href="../static/css/styles.css">
+</head>
+
+<body>
+    <style>
+        body {
+            margin: 0;
+            padding: 30px;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f3f3f3;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .left-container {
+            padding: 10px;
+            text-align: left;
+            font-size: 90px;
+        }
+
+        .login-container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            width: 500px;
+            text-align: center;
+        }
+
+        .login-box h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .input-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .input-container input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-bottom: 1px solid #ccc;
+            font-size: 16px;
+            color: #333;
+            background-color: transparent;
+            outline: none;
+
+        }
+
+        .input-container label {
+            position: absolute;
+            top: 12px;
+            left: 0;
+            font-size: 16px;
+            color: #999;
+            transition: 0.2s;
+            display: inline-block;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .checkbox-container label {
+            margin-left: -80px;
+            /* Adjust as needed for spacing between checkbox and label */
+            white-space: nowrap;
+        }
+
+        .input-container input:focus+label,
+        .input-container input:valid+label {
+            top: -10px;
+            font-size: 12px;
+            color: #007bff;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        p {
+            margin-top: 10px;
+            color: #777;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        #pi {
+            color: red;
+            margin-left: 5px;
+        }
+    </style>
+    <div class="login-container">
+        <div class="login-box">
+            <h2>NetGuard Sub-Scanner</h2>
+            <h3>IP Information</h3>
+            <form action="{% url 'ip_tools' %}" method="POST">
+
+                <div class="input-container">
+                    {% csrf_token %}
+                    <input type="text" id="id" name="ipaddress" required>
+                    <label for="id">IP Address or Website</label>
+                </div>
+                <table>
+                    <td>
+                        <button type="submit" style=" margin-bottom: 20px">Search</button>
+                        <button style="margin-bottom: 20px;">Back</button>
+                    </td>
+                </table>
+                {% for msg in messages %}
+                <p>{{ error_message }}</p>
+                {% endfor %}
+                {% if ip_info %}
+                <div>
+                    <p><strong>Query:</strong> {{ ip_info.query }}</p>
+                    <p><strong>Country:</strong> {{ ip_info.country }}</p>
+                    <p><strong>Country Code:</strong> {{ ip_info.countryCode }}</p>
+                    <p><strong>Region:</strong> {{ ip_info.region }}</p>
+                    <p><strong>Region Name:</strong> {{ ip_info.regionName }}</p>
+                    <p><strong>City:</strong> {{ ip_info.city }}</p>
+                    <p><strong>ZIP:</strong> {{ ip_info.zip }}</p>
+                    <p><strong>Latitude:</strong> {{ ip_info.lat }}</p>
+                    <p><strong>Longitude:</strong> {{ ip_info.lon }}</p>
+                    <p><strong>Timezone:</strong> {{ ip_info.timezone }}</p>
+                    <p><strong>ISP:</strong> {{ ip_info.isp }}</p>
+                    <p><strong>Organization:</strong> {{ ip_info.org }}</p>
+                    <p><strong>AS:</strong> {{ ip_info.as }}</p>
+                </div>
+                {% endif %}
+            </form>
+            <br>
+        </div>
+    </div>
+</body>
+
+</html>
