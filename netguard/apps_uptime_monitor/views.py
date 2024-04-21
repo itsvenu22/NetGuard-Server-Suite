@@ -12,6 +12,7 @@ from django.utils import timezone
 import uuid, time, pyotp
 import requests
 import logging
+from requests import get
 
 @csrf_exempt
 def gen_uid(request):
@@ -162,7 +163,9 @@ def security_tools(request):
 
 @csrf_exempt
 def landing(request):
-    return render(request, 'superuser-landing.html')
+    ipv4 = requests.get('https://api.seeip.org').text
+    context = {'ipv4': ipv4}
+    return render(request, 'superuser-landing.html', context)
 
 @csrf_exempt
 def signup(request):
