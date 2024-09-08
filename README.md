@@ -15,3 +15,71 @@ NetGuard Server Suite is a web-based tool designed for managing DNS lookups and 
 - 🔧 **Customizable**: Easily extend functionality to suit your needs.
 - 🐍 **Built with Django & Python**: A robust framework for web development.
 
+## 📦 Installation
+
+### Prerequisites
+
+Ensure that you have the following installed:
+
+- **Python 3.x**: [Download Python](https://www.python.org/downloads/)
+- **Django 5.x**: [Django Documentation](https://www.djangoproject.com/)
+- **Git** (optional but recommended): [Download Git](https://git-scm.com/)
+
+### Steps
+
+1. Clone the repository:
+
+    ```bash
+    git clone https://github.com/username/netguard-server-suite.git
+    cd netguard-server-suite
+    ```
+
+2. Create a virtual environment:
+
+    ```bash
+    python3 -m venv venv
+    source venv/bin/activate  # On Windows: venv\Scripts\activate
+    ```
+
+3. Install the project dependencies:
+
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+4. Apply database migrations:
+
+    ```bash
+    python manage.py migrate
+    ```
+
+5. Run the Django development server:
+
+    ```bash
+    python manage.py runserver
+    ```
+
+6. Open your browser and visit:
+
+    ```
+    http://127.0.0.1:8000
+    ```
+
+## 🌍 Public IP Retrieval
+
+This application uses the following APIs to retrieve the server’s public IP addresses:
+
+- **IPv4**: [https://api.seeip.org](https://api.seeip.org)
+- **IPv6**: [https://api6.ipify.org](https://api6.ipify.org)
+
+These endpoints will be queried to fetch the current public IP addresses.
+
+## 🛠 Usage
+
+- Visit the **DNS Information** page to enter a domain name and perform DNS lookups.
+- The page will display the DNS records such as A, NS, MX, SOA, and TXT records.
+- You can also retrieve the server's public IP addresses (both IPv4 and IPv6).
+
+## ⚙️ Dependencies
+
+The project uses the following dependencies. Install them with the command `pip install -r requirements.txt`.
